@@ -1,50 +1,52 @@
 #include <iostream>
+#include<cmath>
 #include <windows.h>
 using namespace std;
 
 #define ull unsigned long long int
 
-const ull N = 1024;
-ull a[N];
+const ull n = 28;
+const ull N = pow(2, n);
+ull*a = new ull[N];
 int LOOP = 1;
 int bias = 100;
 
 void init()
 {
     for (ull i = 0; i < N; i++)
-        a[i] = i+bias;
+        a[i] = i + bias;
 }
 
 void ordinary()
 {
     long long int begin, end, freq;
-    QueryPerformanceFrequency((LARGE_INTEGER *) &freq);
-    QueryPerformanceCounter((LARGE_INTEGER*) &begin);
-    for(int l=0;l<LOOP;l++)
+    QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
+    QueryPerformanceCounter((LARGE_INTEGER*)&begin);
+    for (int l = 0; l < LOOP; l++)
     {
         // init();
         ull sum = 0;
         for (int i = 0; i < N; i++)
             sum += a[i];
     }
-    QueryPerformanceCounter((LARGE_INTEGER*) &end);
-    cout<<"ordinary:"<<(end-begin)*1000.0/freq/LOOP<<"ms"<<endl;
+    QueryPerformanceCounter((LARGE_INTEGER*)&end);
+    cout << "ordinary:" << (end - begin) * 1000.0 / freq / LOOP << "ms" << endl;
 }
 
 void optimize()
 {
     long long int begin, end, freq;
-    QueryPerformanceFrequency((LARGE_INTEGER *) &freq);
-    QueryPerformanceCounter((LARGE_INTEGER*) &begin);
-    for(int l=0;l<LOOP;l++)
+    QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
+    QueryPerformanceCounter((LARGE_INTEGER*)&begin);
+    for (int l = 0; l < LOOP; l++)
     {
         ull sum1 = 0, sum2 = 0;
-        for(int i=0;i<N-1; i+=2)
-            sum1+=a[i],sum2+= a[i+1];
+        for (int i = 0; i < N - 1; i += 2)
+            sum1 += a[i], sum2 += a[i + 1];
         ull sum = sum1 + sum2;
     }
-    QueryPerformanceCounter((LARGE_INTEGER*) &end);
-    cout<<"optimize:"<<(end-begin)*1000.0/freq/LOOP<<"ms"<<endl;
+    QueryPerformanceCounter((LARGE_INTEGER*)&end);
+    cout << "optimize:" << (end - begin) * 1000.0 / freq / LOOP << "ms" << endl;
 }
 
 int main()
